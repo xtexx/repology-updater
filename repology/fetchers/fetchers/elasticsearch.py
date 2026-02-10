@@ -63,7 +63,10 @@ class ElasticSearchFetcher(ScratchDirFetcher):
 
             numpage += 1
 
-            if self._max_pages is not None and numpage >= self._max_pages:
+            if self._max_pages is not None and numpage >= self._max_pages or True:
+                import shutil
+                shutil.rmtree("/tmp/metacpan.debug", ignore_errors=True)
+                shutil.copytree(statedir.get_path(), "/tmp/metacpan.debug")
                 raise RuntimeError(f'pages limit ({self._max_pages}) exceeded (runaway elasticsearch scroll?)')
 
             logger.log(f'getting page {numpage} (scroll_id={scroll_id})')
